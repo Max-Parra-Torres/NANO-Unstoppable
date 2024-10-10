@@ -1,20 +1,27 @@
 import random
+import time
 
-teRadenWoord = random.randrange(1, 4)
+def woord(moeilijkheidsgraad):
+    """
+    geeft een willekeurig woord naar aanleiding van de gekozen moeilijkheidsgraad
+    """
+    randomNummer = random.randrange(0, 5)
 
-woord1 = "appel"
-woord2 = "bomen"
-woord3 = "auto"
+    if moeilijkheidsgraad == 1:
+        with open("game files\galgje\galgjeMakkelijk", "r") as woorden:
+            woordenlijst = woorden.readlines()
+            teRadenWoord = woordenlijst[randomNummer].strip()
+    elif moeilijkheidsgraad == 2:
+        with open("game files\galgje\galgjeMoeilijk", "r") as woorden:
+            woordenlijst = woorden.readlines()
+            teRadenWoord = woordenlijst[randomNummer].strip()
+    elif moeilijkheidsgraad == 3:
+        with open("game files\galgje\galgjeOnmogelijk", "r") as woorden:
+            woordenlijst = woorden.readlines()
+            teRadenWoord = woordenlijst[randomNummer].strip()
 
-if teRadenWoord == 1:
-    teRadenWoord = woord1
-elif teRadenWoord == 2:
-    teRadenWoord = woord2
-else:
-    teRadenWoord = woord3
+    return teRadenWoord
 
-geradenWoord = []
-levens = 10
 
 def letterWeergave(teRadenWoord, geradenWoord):
     """
@@ -106,7 +113,7 @@ def galg(levens):
         print("Je hebt nog maar 1 leven!\n"
               "__________\n"
               "|     |\n"
-              "|     O\n"
+              "|     O  <[ Help! ] \n"
               "|   / | \ \n"
               "|     |\n"
               "|    / \ ")
@@ -120,18 +127,49 @@ def galg(levens):
               "|_______|")
 
 
-#______________________________________________________________
+#--------------------------------------------------------------------------------------
 
 
-print('*dev code* het te raden woord is:', teRadenWoord)
+geradenWoord = []
+levens = 10
+
 print("Welkom bij galgje.\n"
           "Raad het woord, letter voor letter.\n"
-          "Zijn je levens op? Dan heb je verloren.")
+          "Zijn je levens op? Dan heb je verloren.\n")
+
+username = input("Wat is je naam?: ")
+
+while True:
+
+    moeilijkheidsgraad = input("Welke moeilijkheidsgraad wil je spelen?\n"
+                               "1 = makkelijk\n"
+                               "2 = moeilijk\n"
+                               "3 = onmogelijk (test je woordenschat)\n" #dit zijn 5 van de meest gegoogelde nederlandse woorden
+                               "Maak een keuze: ")
+
+    try:
+        moeilijkheidsgraad = int(moeilijkheidsgraad)
+        if moeilijkheidsgraad not in [1, 2, 3]:
+            print("Ongeldige keuze. Kies uit 1, 2 of 3")
+            continue
+    except ValueError:
+        print("Ongeldige invoer. Voer een cijfer in.")
+        continue
+
+    break
+
+teRadenWoord = woord(moeilijkheidsgraad)
+
+#-------------------------------------------------------#
+#print('*dev code* het te raden woord is:', teRadenWoord)
+#-------------------------------------------------------#
 
 while levens > 0:
+
     letterWeergave(teRadenWoord, geradenWoord)
 
     while True:
+
         try:
             geradenLetter = input("Welke letter wil je proberen? - ").lower()
             if len(geradenLetter) != 1: #controleert of de invoer 1 letter is
@@ -141,6 +179,7 @@ while levens > 0:
             break
         except ValueError as error:
             print(error) #laat de error aan de gebruiker zien
+
 
     if geradenLetter not in geradenWoord:
         if geradenLetter in teRadenWoord:
@@ -157,9 +196,19 @@ while levens > 0:
             alleGeraden = False
             break
 
+    uitkomst = "niet geraden"
+
     if alleGeraden:
-        print("Gefeliciteerd! Je hebt het woord geraden!\n")
+        print(f"Gefeliciteerd! Je hebt het woord '{teRadenWoord}' geraden!\n")
+        uitkomst = "geraden"
         break
+
 
 else:
     print(f"Helaas, het woord was: {teRadenWoord}")
+
+#houdt een logboek bij
+numPoging = 10 - levens
+with open("game files\galgje\galgjeLogboek", "a") as log:
+    log.write(f"{username} heeft het woord {teRadenWoord} op {time.strftime('%d/%b/%Y, %H:%M')} {uitkomst}. {username} heeft er {numPoging} keer over gedaan.\n"
+              "-------------------------------------------------------------------------------------------\n")
