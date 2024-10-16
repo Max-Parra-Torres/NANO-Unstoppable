@@ -1,7 +1,7 @@
 from game_play import setup_game, play_game
 
 def the_missing_heirloom():
-    # Run the game logic
+    # Run the TMH_classes logic
     name = "Detective D!BZY"
     print('This is a text based detective game.\n'
           'You play as the famous detective D!BZY.\n'
@@ -16,4 +16,4 @@ def the_missing_heirloom():
     play_game(player)
 
 if __name__ == "__main__":
-    the_missing_heirloom()  # Call the function to start the game
+    the_missing_heirloom()  # Call the function to start the TMH_classes
