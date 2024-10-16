@@ -210,7 +210,7 @@ def play_galgje():
 
 
     else:
-        print(f"D!BZY: Helaas, het woord was: {teRadenWoord}"
+        print(f"D!BZY: Helaas, het woord was: {teRadenWoord}\n"
               f"Geef het niet op! D!BZY gelooft in je! |っᵔ◡ᵔ|っ")
 
     #houdt een logboek bij
