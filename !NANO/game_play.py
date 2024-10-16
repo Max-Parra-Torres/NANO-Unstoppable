@@ -1,8 +1,8 @@
-from gameFiles.game.room import Room
-from gameFiles.game.item import Item
-from gameFiles.game.player import Player
-from gameFiles.game.npc import Npc
-from gameFiles.game.door import Door
+from gameFiles.TMH_classes.room import Room
+from gameFiles.TMH_classes.item import Item
+from gameFiles.TMH_classes.player import Player
+from gameFiles.TMH_classes.npc import Npc
+from gameFiles.TMH_classes.door import Door
 from enum import Enum
 
 
@@ -164,14 +164,14 @@ def setup_game(player_name):
     garden.add_npc(david)
 
 
-    # Create a player and start the game in the ballroom
+    # Create a player and start the TMH_classes in the ballroom
     player_in_the_ballroom = Player(player_name, ballroom, rooms)
 
     return player_in_the_ballroom
 
 
 
-# Main game loop
+# Main TMH_classes loop
 def play_game(user):
     while True:
         print(f"\n\n{user.name}, you are in the {user.current_room}")
@@ -237,17 +237,23 @@ def play_game(user):
                 print("Type a number from 1 - 5 please.")
                 continue
         elif command == Option.QUIT.value:
-            print("Thanks for playing!")
-            break
-
+            quit_choice = input("Are you sure you want to quit? (This decision is final)\n"
+                                "y/n: ")
+            if quit_choice == "y" or quit_choice == "Y":
+                print("Thanks for playing!")
+                break
+            elif quit_choice == "n" or quit_choice == "N":
+                continue
+            else:
+                print("Please only enter y or n. (y = yes & n = no)")
         else:
             print("Invalid command.")
 
 
 def the_missing_heirloom():
-    # Run the game logic
+    # Run the TMH_classes logic
     name = "Detective D!BZY"
-    print('This is a text based detective game.\n'
+    print('This is a text based detective TMH_classes.\n'
           'You play as the famous detective D!BZY.\n'
           'Tonight is very special.\n'
           'You have been invited to one of the party\'s of the well known baron & baroness Decuard.\n'
