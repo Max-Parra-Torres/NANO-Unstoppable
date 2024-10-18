@@ -1,3 +1,5 @@
+from pathlib import Path
+
 def play_galgje():
     """
     speelt galgje
@@ -11,18 +13,22 @@ def play_galgje():
         """
         randomNummer = random.randrange(0, 5)
 
+        base_path = Path(__file__).parent / "gameFiles" / "galgje"
+
         if moeilijkheidsgraad == 1:
-            with open("gameFiles\galgje\galgjeMakkelijk", "r") as woorden:
-                woordenlijst = woorden.readlines()
-                teRadenWoord = woordenlijst[randomNummer].strip()
+            ma = base_path / "galgjeMakkelijk"
         elif moeilijkheidsgraad == 2:
-            with open("gameFiles\galgje\galgjeMoeilijk", "r") as woorden:
-                woordenlijst = woorden.readlines()
-                teRadenWoord = woordenlijst[randomNummer].strip()
+            mo = base_path / "galgjeMoeilijk"
         elif moeilijkheidsgraad == 3:
-            with open("gameFiles\galgje\galgjeOnmogelijk", "r") as woorden:
-                woordenlijst = woorden.readlines()
-                teRadenWoord = woordenlijst[randomNummer].strip()
+            on = base_path / "galgjeOnmogelijk"
+
+        #kijkt of de file bestaat voor hij hem opent
+        if not ma.exists():
+            raise FileNotFoundError(f"Het bestand {ma} bestaat niet!")
+
+        with ma.open("r") as woorden:
+            woordenlijst = woorden.readlines()
+            teRadenWoord = woordenlijst[randomNummer].strip()
 
         return teRadenWoord
 
@@ -83,7 +89,7 @@ def play_galgje():
             print("__________\n"
                   "|     |\n"
                   "|     O\n"
-                  "|     |\n"
+                  "|     | \n"
                   "|\n"
                   "|")
         elif levens == 5:
@@ -97,21 +103,21 @@ def play_galgje():
             print("__________\n"
                   "|     |\n"
                   "|     O\n"
-                  "|   / | \ \n"
+                  "|   / | \\ \n"
                   "|\n"
                   "|")
         elif levens == 3:
             print("__________\n"
                   "|     |\n"
                   "|     O\n"
-                  "|   / | \ \n"
+                  "|   / | \\ \n"
                   "|     |\n"
                   "|")
         elif levens == 2:
             print("__________\n"
                   "|     |\n"
                   "|     O\n"
-                  "|   / | \ \n"
+                  "|   / | \\\n"
                   "|     |\n"
                   "|    /")
         elif levens == 1:
@@ -119,14 +125,14 @@ def play_galgje():
                   "__________\n"
                   "|     |\n"
                   "|     O  <[ Help! ] \n"
-                  "|   / | \ \n"
+                  "|   / | \\\n"
                   "|     |\n"
-                  "|    / \ ")
+                  "|    / \\ ")
         else:
             print("Je hebt het woord niet geraden.\n"
                   "  _____\n"
-                  " /     \ \n"
-                  "/   R.  \ \n"
+                  " /     \\\n"
+                  "/   R.  \\\n"
                   "|   I.  |\n"
                   "|   P.  |\n"
                   "|_______|")
@@ -214,7 +220,8 @@ def play_galgje():
               f"Geef het niet op! D!BZY gelooft in je! |っᵔ◡ᵔ|っ")
 
     #houdt een logboek bij
-    numPoging = 10 - levens + len(teRadenWoord)
-    with open("gameFiles\galgje\galgjeLogboek", "a") as log:
+    numPoging = 10 - levens
+    logboek = Path(__file__).parent / "gameFiles" / "galgje" / "galgjeLogboek"
+    with logboek.open("a") as log:
         log.write(f"{username} heeft het woord {teRadenWoord} op {time.strftime('%d/%b/%Y, %H:%M')} {uitkomst}. {username} heeft er {numPoging} keer over gedaan.\n"
                   "-------------------------------------------------------------------------------------------\n")
